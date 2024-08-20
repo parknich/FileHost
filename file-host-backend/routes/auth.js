@@ -27,6 +27,7 @@ router.post('/signup', async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        username: user.username, // Adding username to the payload
       },
     };
 
@@ -41,10 +42,17 @@ router.post('/signup', async (req, res) => {
 
 // Login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { identifier, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    // Find user by email or username
+    const user = await User.findOne({
+      $or: [
+        { email: identifier },
+        { username: identifier },
+      ],
+    });
+
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -53,6 +61,7 @@ router.post('/login', async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        username: user.username, // Adding username to the payload
       },
     };
 

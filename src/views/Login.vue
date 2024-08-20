@@ -2,7 +2,7 @@
   <div class="auth-form">
     <h1>Log In</h1>
     <form @submit.prevent="handleLogin">
-      <input v-model="email" type="email" placeholder="Email" required />
+      <input v-model="identifier" type="text" placeholder="Username or Email" required />
       <input v-model="password" type="password" placeholder="Password" required />
       <div class="button-container">
         <input type="submit" value="Log In" />
@@ -14,28 +14,29 @@
 
 <script setup>
 import { ref } from 'vue';
-import api from '../services/api'; // Ensure this points to your API service
+import api from '../services/api';
 import { useRouter } from 'vue-router';
 
-const email = ref('');
+const identifier = ref(''); // This can be either email or username
 const password = ref('');
 const router = useRouter();
 
 const handleLogin = async () => {
   try {
     const response = await api.post('/auth/login', {
-      email: email.value,
+      identifier: identifier.value,
       password: password.value,
     });
 
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('email', email.value);
+    localStorage.setItem('identifier', identifier.value);
     router.push('/dashboard');
   } catch (err) {
     console.error('Error logging in:', err.response?.data?.message || 'An error occurred');
   }
 };
 </script>
+
 
 <style scoped>
 .auth-form {
