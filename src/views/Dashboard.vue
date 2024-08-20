@@ -139,7 +139,8 @@
   };
   
   const copyUrl = (url) => {
-    navigator.clipboard.writeText(url).then(() => {
+    const realURL = "https://files.parknich.xyz" + url;
+    navigator.clipboard.writeText(realURL).then(() => {
       alert('URL copied to clipboard');
     });
   };
