@@ -273,17 +273,6 @@
     margin-bottom: 0.5rem;
   }
   
-  .image-preview img {
-    width: 100%;
-    height: 200px; /* Adjust height for images */
-    object-fit: cover;
-  }
-  
-  .video-preview video {
-    width: 200%;
-    height: 200px; /* Adjust height for videos */
-  }
-  
   .file-info {
     color: #ddd;
     text-align: center;
