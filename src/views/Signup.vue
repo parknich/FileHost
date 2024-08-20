@@ -22,6 +22,7 @@ import { useRouter } from 'vue-router';
 const username = ref('');
 const email = ref('');
 const password = ref('');
+const key = ref('');
 const router = useRouter();
 
 const handleSignup = async () => {
