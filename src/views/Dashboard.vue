@@ -165,7 +165,7 @@ const isVideo = (url) => {
     if (!selectedFile.value) return;
   
     const formData = new FormData();
-    const username = localStorage.getItem('email');
+    const username = localStorage.getItem('identifier');
     formData.append('username', username);
     formData.append('file', selectedFile.value);
     if (isVideo(selectedFile.value.name)) {
