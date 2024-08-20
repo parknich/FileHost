@@ -63,7 +63,7 @@
   <script setup>
   import { ref, computed, onMounted } from 'vue';
   import api from '../services/api'; // Ensure this points to your API service
-  
+  import mime from 'mime';
   const categories = ['All', 'Images', 'Videos', 'Other'];
   const selectedCategory = ref('All');
   const files = ref([]);
