@@ -18,14 +18,17 @@
         </div>
         <div class="file-grid">
           <div v-for="file in filteredFiles" :key="file._id" class="file-card">
-            <div v-if="isImage(file.url)" class="file-preview">
+            <div v-if="isImage(file.url)" class="file-preview image-preview">
               <img :src="file.url" alt="file preview" />
             </div>
-            <div v-if="isVideo(file.url)" class="file-preview">
+            <div v-if="isVideo(file.url)" class="file-preview video-preview">
               <video controls :src="file.url"></video>
             </div>
             <div v-if="!isImage(file.url) && !isVideo(file.url)" class="file-info">
               <p>File Type: {{ getFileType(file.name) }}</p>
+            </div>
+            <div class="file-info">
+              <p>{{ file.name }}</p>
             </div>
             <div class="file-actions">
               <button @click="copyUrl(file.url)">Copy URL</button>
@@ -99,40 +102,41 @@
     });
   });
   
-const isImage = (url) => {
-  const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp|svg|tiff|ico)$/i;
-  return imageExtensions.test(url);
-};
-
-const isVideo = (url) => {
-  const videoExtensions = /\.(mp4|mov|webm|ogg|avi|mkv|flv|wmv)$/i;
-  return videoExtensions.test(url);
-};
+  const isImage = (url) => {
+    const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|webp|svg|tiff|ico)$/i;
+    return imageExtensions.test(url);
+  };
+  
+  const isVideo = (url) => {
+    const videoExtensions = /\.(mp4|mov|webm|ogg|avi|mkv|flv|wmv)$/i;
+    return videoExtensions.test(url);
+  };
+  
   const getFileType = (fileName) => {
-  if (!fileName) {
-    console.error('fileName is undefined or null');
-    return 'unknown';
-  }
-
-  // Extract file extension
-  const ext = fileName.split('.').pop().toLowerCase();
-
-  // Get MIME type
-  const mimeType = mime.lookup(ext);
-
-  // Determine file type based on MIME type
-  if (mimeType) {
-    if (mimeType.startsWith('image/')) {
-      return 'image';
-    } else if (mimeType.startsWith('video/')) {
-      return 'video';
-    } else {
-      return 'other';
+    if (!fileName) {
+      console.error('fileName is undefined or null');
+      return 'unknown';
     }
-  } else {
-    return 'unknown';
-  }
-};
+  
+    // Extract file extension
+    const ext = fileName.split('.').pop().toLowerCase();
+  
+    // Get MIME type
+    const mimeType = mime.lookup(ext);
+  
+    // Determine file type based on MIME type
+    if (mimeType) {
+      if (mimeType.startsWith('image/')) {
+        return 'image';
+      } else if (mimeType.startsWith('video/')) {
+        return 'video';
+      } else {
+        return 'other';
+      }
+    } else {
+      return 'unknown';
+    }
+  };
   
   const copyUrl = (url) => {
     navigator.clipboard.writeText(url).then(() => {
@@ -265,21 +269,24 @@ const isVideo = (url) => {
   
   .file-preview {
     width: 100%;
-    height: 150px;
-    overflow: hidden;
     border-radius: 8px;
     margin-bottom: 0.5rem;
   }
   
-  .file-preview img,
-  .file-preview video {
+  .image-preview img {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
+    height: 200px; /* Adjust height for images */
+    object-fit: cover;
+  }
+  
+  .video-preview video {
+    width: 100%;
+    height: 200px; /* Adjust height for videos */
   }
   
   .file-info {
     color: #ddd;
+    text-align: center;
   }
   
   .file-actions {
