@@ -273,6 +273,15 @@
     margin-bottom: 0.5rem;
   }
   
+  .image-preview img {
+    width: 100%;
+    object-fit: cover;
+  }
+  
+  .video-preview video {
+    width: 100%;
+  }
+  
   .file-info {
     color: #ddd;
     text-align: center;
