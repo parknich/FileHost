@@ -139,11 +139,20 @@
   };
   
   const copyUrl = (url) => {
-    const realURL = "https://files.parknich.xyz" + url;
-    navigator.clipboard.writeText(realURL).then(() => {
-      alert('URL copied to clipboard');
-    });
-  };
+  // Construct the full URL
+  const baseURL = "https://files.parknich.xyz";
+  const fullURL = baseURL + url;
+
+  // Encode the URL component
+  const encodedURL = encodeURI(fullURL);
+
+  // Copy the encoded URL to clipboard
+  navigator.clipboard.writeText(encodedURL).then(() => {
+    alert('URL copied to clipboard');
+  }).catch(err => {
+    console.error('Failed to copy URL:', err);
+  });
+};
   
   const deleteFile = async (fileId) => {
     try {
