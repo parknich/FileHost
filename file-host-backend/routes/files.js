@@ -71,7 +71,13 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 // List files route
 router.get('/', async (req, res) => {
   try {
-    const files = await File.find();
+    const token = req.headers['x-auth-token'];
+    const username = extractUsernameFromToken(token);
+
+    if (!username) return res.status(401).json({ message: 'Unauthorized' });
+
+    // Find files for the current user
+    const files = await File.find({ url: { $regex: `^/uploads/${username}/` } });
     res.json(files);
   } catch (err) {
     res.status(500).json({ message: err.message });
