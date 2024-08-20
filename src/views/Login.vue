@@ -2,7 +2,7 @@
   <div class="auth-form">
     <h1>Log In</h1>
     <form @submit.prevent="handleLogin">
-      <input v-model="identifier" type="text" placeholder="Username or Email" required />
+      <input v-model="identifier" type="text" placeholder="Username" required />
       <input v-model="password" type="password" placeholder="Password" required />
       <div class="button-container">
         <input type="submit" value="Log In" />
