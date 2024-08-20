@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://files.parknich.xyz/api",
+  baseURL: "https://files.parknich.xyz/api",
 });
 
 export const fetchFiles = () => {
