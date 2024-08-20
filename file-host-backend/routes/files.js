@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
     }
   });
   
-  const upload = multer({ storage });
+const upload = multer({ storage });
 
 // Upload file route
 router.post('/upload', upload.single('file'), async (req, res) => {
@@ -67,12 +67,12 @@ router.delete('/:id', async (req, res) => {
     if (!file) return res.status(404).json({ message: 'File not found' });
 
     // Delete file from server
-    const filePath = path.join(__dirname, '../public/uploads', file.url.replace('/uploads/', ''));
+    const filePath = path.join(__dirname, '../uploads', file.url.replace('/uploads/', ''));
     fs.unlink(filePath, (err) => {
       if (err) return res.status(500).json({ message: 'Failed to delete file' });
     });
 
-    await file.remove();
+    await File.deleteOne({ _id: req.params.id }); // Use deleteOne to remove the document
     res.json({ message: 'File deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
