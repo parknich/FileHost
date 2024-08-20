@@ -280,7 +280,7 @@
   }
   
   .video-preview video {
-    width: 100%;
+    width: 200%;
     height: 200px; /* Adjust height for videos */
   }
   
