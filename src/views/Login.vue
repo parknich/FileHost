@@ -55,7 +55,7 @@ h1 {
   margin-bottom: 1rem;
 }
 
-input[type="email"],
+input[type="text"],
 input[type="password"] {
   width: calc(100% - 2em); /* Adjust width to match the button */
   padding: 0.8em;
