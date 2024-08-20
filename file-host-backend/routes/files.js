@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 const File = require('../models/File'); // Your File model
 
 // Helper function to ensure directory exists
@@ -12,32 +13,49 @@ const ensureDirectoryExists = (dir) => {
   }
 };
 
+// Extract username from token
+const extractUsernameFromToken = (token) => {
+  try {
+    // Verify the token and extract payload
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Access the username from the payload
+    return decoded.user.username;
+  } catch (err) {
+    console.error('Token is invalid:', err.message);
+    return null;
+  }
+};
+
 // Setup storage for uploaded files
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      // Ensure `username` is available from req.body or token
-      const username = req.body.username || 'null'; // Fallback to 'null' if username is not provided
-      console.log(req.body.username)
-      const uploadPath = path.join(__dirname, `../uploads/${username}`);
-      
-      // Ensure the directory exists or create it if it doesn't
-      fs.mkdirSync(uploadPath, { recursive: true });
-  
-      cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-      const filename = file.originalname;
-      cb(null, filename);
-    }
-  });
-  
+  destination: (req, file, cb) => {
+    // Extract token from headers
+    const token = req.headers['x-auth-token'];
+    const username = extractUsernameFromToken(token) || 'null'; // Use extracted username or fallback
+
+    const uploadPath = path.join(__dirname, `../uploads/${username}`);
+    
+    // Ensure the directory exists or create it if it doesn't
+    ensureDirectoryExists(uploadPath);
+
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const filename = file.originalname;
+    cb(null, filename);
+  }
+});
+
 const upload = multer({ storage });
 
 // Upload file route
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
-    const { username } = req.body;
-    if (!username) return res.status(400).json({ message: 'Username is required' });
+    const token = req.headers['x-auth-token'];
+    const username = extractUsernameFromToken(token);
+
+    if (!username) return res.status(401).json({ message: 'Unauthorized' });
 
     const newFile = new File({
       name: req.file.filename,
