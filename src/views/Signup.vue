@@ -5,6 +5,7 @@
       <input v-model="username" type="text" placeholder="Username" required />
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Password" required />
+      <input v-model="key" type="key" placeholder="Invite Key" required />
       <div class="button-container">
         <input type="submit" value="Sign Up" />
       </div>
@@ -29,6 +30,7 @@ const handleSignup = async () => {
       username: username.value,
       email: email.value,
       password: password.value,
+      key: key.value,
     });
     router.push('/login');
   } catch (err) {
@@ -56,6 +58,7 @@ h1 {
 
 input[type="text"],
 input[type="email"],
+input[type="key"],
 input[type="password"] {
   width: calc(100% - 2em); /* Adjust width to match the button */
   padding: 0.8em;
