@@ -122,7 +122,7 @@
     const ext = fileName.split('.').pop().toLowerCase();
   
     // Get MIME type
-    const mimeType = mime.lookup(ext);
+    const mimeType = mime.getType(ext);
   
     // Determine file type based on MIME type
     if (mimeType) {
