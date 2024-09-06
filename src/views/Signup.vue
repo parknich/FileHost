@@ -1,4 +1,6 @@
 <template>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9394690619698484"
+  crossorigin="anonymous"></script>
   <div class="auth-form">
     <h1>Sign Up</h1>
     <form @submit.prevent="handleSignup">

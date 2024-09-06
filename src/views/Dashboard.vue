@@ -1,4 +1,6 @@
 <template>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9394690619698484"
+     crossorigin="anonymous"></script>
     <div class="dashboard">
       <aside class="sidebar">
         <h2>Files</h2>
