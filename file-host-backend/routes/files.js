@@ -57,11 +57,22 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
     if (!username) return res.status(401).json({ message: 'Unauthorized' });
 
+    // Save file information to the database
     const newFile = new File({
       name: req.file.filename,
       url: `/uploads/${username}/${req.file.filename}` // Update URL path to include username
     });
     await newFile.save();
+
+    // Check if the request is coming from ShareX (by checking a custom header)
+    const isShareX = req.headers['x-sharex'] === 'true';
+
+    if (isShareX) {
+      // Simplified response for ShareX with only the URL
+      return res.json({ url: `${req.protocol}://${req.get('host')}${newFile.url}` });
+    }
+
+    // Default response for other clients (e.g., dashboard)
     res.json(newFile);
   } catch (err) {
     res.status(500).json({ message: err.message });

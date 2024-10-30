@@ -11,7 +11,9 @@
   "dependencies": {
     "axios": "^1.7.4",
     "jwt-decode": "^4.0.0",
+    "mime": "^4.0.4",
     "mime-types": "^2.1.35",
+    "multer": "^1.4.5-lts.1",
     "vue": "^3.4.37",
     "vue-router": "^4.4.3"
   },
